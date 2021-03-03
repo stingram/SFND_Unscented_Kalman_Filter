@@ -4,6 +4,7 @@
 #include "render/render.h"
 #include "sensors/lidar.h"
 #include "tools.h"
+#define SAVE_SCENE 0
 
 class Highway
 {

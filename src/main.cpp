@@ -27,17 +27,30 @@ int main(int argc, char** argv)
 
 	double egoVelocity = 25;
 
+
+	// saving image
+	std::ostringstream oss;
+	std::string base_fn = "../images/image_";
+	int precision = 5;
+
+	// viewer loop
 	while (frame_count < (frame_per_sec*sec_interval))
 	{
 		viewer->removeAllPointClouds();
 		viewer->removeAllShapes();
 
-		//stepHighway(egoVelocity,time_us, frame_per_sec, viewer);
 		highway.stepHighway(egoVelocity,time_us, frame_per_sec, viewer);
 		viewer->spinOnce(1000/frame_per_sec);
 		frame_count++;
 		time_us = 1000000*frame_count/frame_per_sec;
 		
+		if(SAVE_SCENE)
+		{
+			// save to file
+			oss << std::setw(precision) << std::setfill('0') << frame_count;
+			viewer->saveScreenshot(base_fn + oss.str());
+			oss = std::ostringstream();
+		}
 	}
 
 }
